@@ -7,10 +7,12 @@ public:
   void print_with_commas(std::vector<std::string> p_input){
     std::cout << std::endl << "You entered: ";
     for(int i = 0; i < p_input.size(); i++){
-      if((i + 1) == p_input.size()){
-        std::cout << "and " << p_input.at(i) << "." << std::endl;
+      if(i == 0){
+        std::cout << p_input.at(i);
+      } else if((i + 1) == p_input.size()){
+          std::cout << " and " << p_input.at(i) << "." << std::endl;
       } else{
-        std::cout << p_input.at(i) << ", ";
+          std::cout << ", " << p_input.at(i);
       }
     }
   }
