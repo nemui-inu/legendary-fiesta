@@ -9,7 +9,17 @@
 
 #include <iostream>
 
-float charge(int usage);
+class bill {
+public:
+  float under_1000 = 0.07633;
+  float over_1000 = 0.09259;
+
+  float get_charge(int usage){
+    float charge = (usage < 1000) ? usage * under_1000 : 
+      usage * over_1000;
+    return charge;
+  }
+};
 
 int main(){
   int kw_hours;
@@ -21,16 +31,10 @@ int main(){
     return -1;
   }
 
-  float amount_owed = charge(kw_hours);
-  std::cout << "Amount owed: $" << amount_owed;
+  bill electric;
+  float e_bill = electric.get_charge(kw_hours);
+
+  std::cout << "Amount owed is $" << e_bill << "." << std::endl;
 
   return 0;
-}
-
-float charge(int usage){
-  float rate[] = {00.07633, 00.09259};
-  float to_pay;
-  to_pay = (usage <= 1000) ? usage * rate[0] : 
-    usage * rate[1];
-  return to_pay;
 }
