@@ -5,7 +5,6 @@ public:
   int get_lq(int selection[15], int size){
     int highest_number = selection[0];
     int lowest_number = selection[0];
-
     for(int i = 0; i < size; i++){
       if (highest_number < selection[i]){
         highest_number = selection[i];
