@@ -1,116 +1,116 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-
-char * find_s_mside(
-  char * seg_1,
-  char * seg_2
-) {
-  char * mside_n_seg;
-
-  char AC[2] = "AC";
-  char BC[2] = "BC";
-  char AB[2] = "AB";
-
-  if(
-    (!strcmp(seg_1, "AB") && !strcmp(seg_2, "BC")) ||
-    (!strcmp(seg_2, "AB") && !strcmp(seg_1, "BC"))
-    ){
-    // solve for AC
-    mside_n_seg = AC;
-  } else if(
-    (!strcmp(seg_1, "AB") && !strcmp(seg_2, "AC")) ||
-    (!strcmp(seg_2, "AB") && !strcmp(seg_1, "AC"))
-    ){
-    // solve for BC
-    mside_n_seg = BC;
-  } else if(
-    (!strcmp(seg_1, "BC") && !strcmp(seg_2, "AC")) ||
-    (!strcmp(seg_1, "BC") && !strcmp(seg_2, "AC"))
-    ){
-    // solve for AB
-    mside_n_seg = AB;
-  } else {
-    return NULL;
-  }
-}
-
-float find_v_mside(
-  int s_val_a,
-  int s_val_b
-) {
-  float s_val_c;
-  
-  // b not read
-  printf("a = %d, b = %d, c = %d\n", s_val_a, s_val_b, s_val_c);
-
-  // debug for pow
-  printf("a^2 = %d, b^2 = %d, c = %d\n", (s_val_a * s_val_a), (s_val_b & s_val_b), s_val_c);
-
-  if(s_val_a > 0 && s_val_b > 0){
-    if(s_val_c = sqrt(pow(s_val_a, 2) + pow(s_val_b, 2))){
-      return s_val_c;
+#include <stdlib.h>
+ 
+const char * find_s_mside(char * seg_1, char * seg_2) {    
+    if((!strcmp(seg_1, "AB") && !strcmp(seg_2, "BC")) || (!strcmp(seg_2, "AB") && !strcmp(seg_1, "BC"))){
+        // solve for AC
+        return "AC";
+    } 
+    else if((!strcmp(seg_1, "AB") && !strcmp(seg_2, "AC")) || (!strcmp(seg_2, "AB") && !strcmp(seg_1, "AC"))){
+        // solve for BC
+        return "BC";
+    } 
+    else if((!strcmp(seg_1, "BC") && !strcmp(seg_2, "AC")) ||(!strcmp(seg_2, "BC") && !strcmp(seg_1, "AC"))){
+        // solve for AB
+        return "AB";
     } else {
-      return -1;
+        return "";
     }
-  } else {
-    return -1;
-  }
 }
+ 
+float find_v_mside(char * seg_c, char * seg_a, int s_val_a, char * seg_b, int s_val_b) {
+    float s_val_c = 0;
+    
+    if(strcmp(seg_c,"AC") == 0){
+        s_val_c = sqrt(pow(s_val_a, 2) + pow(s_val_b, 2));
+    }
+    else{
+        if(strcmp(seg_a,"AC") == 0){
+            s_val_c = sqrt(pow(s_val_a, 2) - pow(s_val_b, 2));
+        }
+        else if(strcmp(seg_b,"AC") == 0){
+            s_val_c = sqrt(pow(s_val_b, 2) - pow(s_val_a, 2));
+        }
+    }
 
+    return s_val_c;
+}
+ 
 int main(){
-  printf("Assume a right triangle with sides: AB, BC, and AC.\n");
-  printf("Wheras: AC is always hypothenuse\n");
-  printf("\n");
-  printf("(!) WARNING: Segment input is case-sensitive.\n");
-  printf("\n");
+    system("cls");
+    printf("Assume a right triangle with sides: AB, BC, and AC.\n");
+    printf("Wheras: AC is always hypothenuse\n");
+    printf("\n");
+    printf("(!) WARNING: Segment input is case-sensitive.\n");
+    printf("\n");
+    
+    char seg_a[3];
+    printf("Enter first segment: ");
+    //fflush(stdin);
+    //fgets(seg_a, sizeof seg_a, stdin);
+    gets(seg_a);
+    
+    int v_seg_a;
+    printf("Enter first length: ");
+    scanf("%d", &v_seg_a);
+    fflush(stdin);
 
-  char seg_a[3];
-  printf("Enter first segment: ");
-  fflush(stdin);
-  fgets(seg_a, sizeof seg_a, stdin);
+    if(v_seg_a <= 0){
+        printf("(!) Error: Length must be greater than zero (0).");
+        exit(1);
+    }
 
-  int v_seg_a;
-  printf("Enter first length: ");
-  scanf("%d", &v_seg_a);
+    char seg_b[3];
+    printf("Enter second segment: ");
+    //fflush(stdin);
+    //fgets(seg_b, sizeof seg_b, stdin);
+    gets(seg_b);
+   
+    
+    int v_seg_b;
+    printf("Enter second length: ");
+    scanf("%d", &v_seg_b);
+    fflush(stdin);
 
-  char seg_b[3];
-  printf("Enter second segment: ");
-  fflush(stdin);
-  fgets(seg_b, sizeof seg_b, stdin);
-  
-  int v_seg_b;
-  printf("Enter second length: ");
-  scanf("%d", &v_seg_b);
-  printf("v_seg_b: %d\n", v_seg_b);
+    if(v_seg_b <= 0){
+        printf("(!) Error: Length must be greater than zero (0).");
+        exit(1);
+    }
 
-  printf("\n");
-  char seg_c[3];
-  strcpy(
-    seg_c, find_s_mside(
-      seg_a, seg_b
-    )
-  );
+    //AC always hypotenuse
+    if(strcmp(seg_a,"AC") == 0){
+        if(v_seg_a < v_seg_b){
+            printf("(!) Error: AC must always be hypotenuse.");
+            exit(1);
+        }
+    }
+    else if(strcmp(seg_b,"AC") == 0){
+        if(v_seg_b < v_seg_a){
+            printf("(!) Error: AC must always be hypotenuse.");
+            exit(1);
+        }
+    }
+    
+    printf("\n");
 
-  seg_c[2] = '\0';
+    char seg_c[3] = "";
+    strcpy(seg_c, find_s_mside(seg_a, seg_b));
+    
+    seg_c[2] = '\0';
+    
+    fflush(stdin);
 
-  fflush(stdin);
+    if(strcmp(seg_c,"") == 0) {
+        printf("(!) Error: Invalid segment input.\n");
+        exit(1);
+    }
 
-  float v_seg_c = find_v_mside(v_seg_a, v_seg_b);
+    float v_seg_c = find_v_mside(seg_c, seg_a, v_seg_a, seg_b, v_seg_b);
 
-  if(seg_c == NULL) {
-    printf("(!) Error: Invalid segment input.\n");
-    return -1;
-  } else {
-    printf("Missing side is %s.\n", seg_c);
-  }
-
-  if(v_seg_c == -1){
-    printf("(!) Error: Invalid length input.\n");
-    return -1;
-  } else {
-    printf("Length is %f.\n", v_seg_c);
-  }
-
-  return 0;
+    printf("Missing side is %s\n", seg_c);
+    printf("Length is %.2f\n", v_seg_c);
+    
+    return 0;
 }
